@@ -68,15 +68,17 @@ app.get(
       try {
         const { walletAddress, tokenCount, url, title, desc, loc } =
           await req.query;
-        const vaultWallet = await xrpl.Wallet.fromSeed(process.env.WALLET_SEED);
+        const minterWallet = await xrpl.Wallet.fromSeed(
+          process.env.WALLET_SEED
+        );
         let metadataStructure = {
-          title: title,
+          name: title,
           description: desc,
           collectionSize: tokenCount,
           location: loc,
           date: new Date().toLocaleDateString().toString(),
-          URI: url,
-          account: vaultWallet.address,
+          image: url,
+          owner: minterWallet.address,
         };
 
         const metadata = await postToIPFS(JSON.stringify(metadataStructure)); //.substring(21);
